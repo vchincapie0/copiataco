@@ -50,7 +50,7 @@ class UserRegisterView(LoginRequiredMixin,FormView):
 
 class UserRegisterView2(FormView):
     '''Vista que registra usuarios del modelo user'''
-    template_name ='usuarios/add_user2.html'
+    template_name ='usuarios/register_user.html'
     form_class=UserRegisterForm
     success_url=reverse_lazy('users_app:login')
 
