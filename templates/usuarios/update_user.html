@@ -1,0 +1,89 @@
+<div class="modal-dialog modal-md" role="document">
+    <div class="modal-content bg-dark text-white">
+      <div class="modal-header">
+        <h5 class="modal-title">Actualizar Usuario</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">X</button>
+      </div>
+      <div class="modal-body">
+        <form action="{% url 'users_app:edit_user' object.id %}" method="POST" class="form-control bg-dark text-white" style="--bs-bg-opacity: .5;" id="userEditForm">
+            {%csrf_token%}
+
+            {% if form.errors %}
+                <div class="alert alert-info">
+                    {{form.errors.name.0}}
+                    {{form.errors.last_name.0}}
+                    {{form.errors.username.0}}
+                    {{form.errors.password.0}}
+                    {{form.errors.password2.0}}
+                </div>
+            {% endif %}
+
+            <div class="mx-4 my-2 row">
+                
+                <div class="mb-3 col-12">
+                    <label for="id_mp_nombre" class="form-label">Nombres: </label>
+                    {{form.name}}   
+                </div>
+          
+           
+                <div class="mb-3 col-12">
+                    <label for="id_mp_fechallegada" class="form-label">Apellidos:</label>
+                    {{form.last_name}}   
+                </div>
+
+                <div class="mb-3 col-12">
+                    <label for="id_mp_fechavencimiento" class="form-label">Roles:</label>
+                    {{form.rol}}  
+                </div>
+
+                <div class="mb-3 col-12">
+                    <label for="id_imp_lote" class="form-label">Username: </label>
+                    {{form.username}}
+                </div>
+
+                <div class="mb-3 col-12">
+                    <label for="id_imp_lote" class="form-label">Contraseña Nueva: </label>
+                    {{form.password}}
+                </div>
+
+                <div class="mb-3 col-12">
+                    <label for="id_imp_lote" class="form-label">Repetir Contraseña Nueva: </label>
+                    {{form.password2}}
+                </div>
+
+                <div class="col">
+                    <button class="btn btn-success" type="submit">Guardar</button>
+                    |
+                    <a href="{% url 'users_app:list_user' %}" type="button" class="btn btn-danger">Cancelar</a>
+                </div>
+
+               
+            </div>
+            
+        </form>
+        </div>
+    
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+            $('#userEditForm').submit(function (event) {
+                event.preventDefault(); // Evita la redirección predeterminada
+
+                $.ajax({
+                    type: 'POST',
+                    url: $(this).attr('action'),
+                    data: $(this).serialize(),
+                    success: function (data) {
+                        // Verifica la respuesta y actualiza el contenido del modal
+                        $('#edit_usuarios').html(data);
+                    },
+                    error: function (xhr, status, error) {
+                        // Maneja errores de Ajax, si es necesario
+                    }
+                });
+            });
+        });
+</script>
+    

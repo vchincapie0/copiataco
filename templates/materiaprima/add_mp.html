@@ -1,0 +1,86 @@
+<div class="modal-dialog modal-md" role="document">
+    <div class="modal-content bg-dark text-white">
+      <div class="modal-header">
+        <h5 class="modal-title">Agregar Materia Prima</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">X</button>
+      </div>
+      <div class="modal-body">
+            <form id="addMpForm" action="{% url 'mp_app:add_mp' %}" method="POST" class="form-control bg-dark text-white" style="--bs-bg-opacity: .5;">
+                {%csrf_token%}
+
+                {% if form.errors %}
+                    <div class="alert alert-info">
+                        {{form.errors.mp_cantidad.0}}
+                        {{form.errors.mp_fechallegada.0}}
+                        {{form.errors.mp_fechavencimiento.0}}
+
+                    </div>
+                {% endif %}
+            
+                <div class="row">
+                    <div class="mb-3 col-md-6 col-12">
+                        <label for="id_imp_lote" class="form-label">Lote:</label>
+                        {{form.mp_lote}}
+                    </div>
+                    <div class="mb-3 col-md-6 col-12">
+                        <label for="id_mp_nombre" class="form-label">Materia Prima:</label>
+                        {{form.mp_nombre}}   
+                    </div>
+                    <div class="mb-3 col-md-6 col-12">
+                        <label for="id_mp_nombre" class="form-label">Tipo:</label>
+                        {{form.mp_tipo}}   
+                    </div>
+                    <div class="mb-3 col-md-6 col-12">
+                        <label for="id_mp_nombre" class="form-label">Cantidad:</label>
+                        {{form.mp_cantidad}} g   
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="mb-3 col-md-6 col-12">
+                        <label for="id_mp_fechallegada" class="form-label">Fecha de Llegada:</label>
+                        {{form.mp_fechallegada}}   
+                    </div>
+
+                    <div class="mb-3 col-md-6 col-12">
+                        <label for="id_mp_fechavencimiento" class="form-label">Fecha de Vencimiento</label>
+                        {{form.mp_fechavencimiento}}  
+                    </div>
+                </div>
+
+                
+            
+                <div class="row justify-content-center">
+                    <div class="col">
+                        <button class="btn btn-success" type="submit">Agregar</button>
+                        <a href="{% url 'mp_app:lista_mp' %}" type="button" class="btn btn-danger">Cancelar</a>
+                    </div>
+                </div>
+                
+            </form>
+        </div>
+    
+    </div>
+</div>
+
+<!---Muestra los errores dentro del modal y evita el redireccionamiento cuando hay algun error-->
+<script>
+    $(document).ready(function () {
+    $('#addMpForm').submit(function (event) {
+        event.preventDefault(); // Evita la redirección predeterminada
+
+        $.ajax({
+            type: 'POST',
+            url: $(this).attr('action'),
+            data: $(this).serialize(),
+            async: true, // Establece la solicitud como asíncrona
+            success: function (data) {
+                // Verifica la respuesta y actualiza el contenido del modal
+                $('#add_mp').html(data);
+            },
+            error: function (xhr, status, error) {
+                // Maneja errores de Ajax, si es necesario
+            }
+        });
+    });
+});
+</script>

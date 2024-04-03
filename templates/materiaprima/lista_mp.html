@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Materia Prima
+{% endblock title %}
+
+
+{% block content %}
+<div class="mt-3 container">
+    <div class="card text-bg-dark mb-3">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-6">
+                    <a name="" id="" class="btn btn-success" onclick="add_mp('{% url 'mp_app:add_mp' %}')" role="button">Agregar Materia Prima</a>
+                </div>
+                
+                <div class="col-6">
+                    <form class="d-flex" role="search">
+                        {% csrf_token %}
+                        <input class="form-control me-2" type="search" placeholder="Buscar Materia Prima" aria-label="Search" name="kword" id="kword">
+                        <button class="btn btn-outline-success" type="submit">Buscar</button>
+                    </form>
+                </div>
+            </div>
+            
+        </div>
+        <div class="card-body">
+            <h4 class="card-title">Materia Prima</h4>
+            
+            <div class="table-responsive text-center">
+                <table class="table table-secondary">
+                    <thead>
+                        <tr>
+                            <th scope="col">Lote</th>
+                            <th scope="col">Materia Prima</th>
+                            <th scope="col">Tipo</th>
+                            <th scope="col">Cantidad</th>
+                            <th scope="col">Fecha de Llegada</th>
+                            <th scope="col">Fecha de vencimiento</th>
+                            <th scope="col">Estado Características Organolepticas</th>
+                            <th scope="col">Desinfección</th>
+                            <th scope="col">Detalles</th>
+                            
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {%for m in materiaprima%}
+                        <tr>
+                            <td>{{m.mp_lote}}</td>
+                            <td>{{m.mp_nombre}}</td>
+                            <td>{{m.get_mp_tipo_display}}</td>
+                            <td>{{m.mp_cantidad}} g</td>
+                            <td>{{m.mp_fechallegada}}</td>
+                            <td>{{m.mp_fechavencimiento}}</td>
+                            <td>
+                                {% if m.caracteristicasorganolepticas_set.all %}
+                                    {% for caracteristica in m.caracteristicasorganolepticas_set.all %}
+                                        {% if caracteristica.estado == '0' %}
+                                            <p style="color: green;">{{ caracteristica.get_estado_display }}</p> <!-- Display the estado field -->
+                                        {% else %}
+                                            <p style="color: red;">{{ caracteristica.get_estado_display }}</p>
+                                        {%endif%}
+                                    {% endfor %}
+                                {% else %}
+                                    No hay características registradas
+                                {% endif %}
+                            </td>
+                            <td>
+                                
+                                {% if m.desinfeccion_set.all %}
+                                    <i class="fa-solid fa-check" style="color: rgb(0, 81, 255);"></i> 
+                                {% else %}
+                                    <i class="fa-solid fa-xmark" style="color: red;"></i> 
+                                {% endif %}
+                                    
+                            </td>
+                            <td>
+                                <a href="{% url 'mp_app:detail_mp' m.mp_lote %}" class="btn btn-primary"><i class="fa-solid fa-eye"></i></a>
+                            </td>
+                            
+                        </tr>
+                        {%endfor%}
+                    </tbody>
+                </table>
+            </div>
+            
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <!--Si existe paginacion entonces mostrará el menu-->
+            {% if is_paginated %}  
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                    <!--Si existe una pagina anterior mostrará la opcion de atras-->
+                    {% if page_obj.has_previous %}   
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{page_obj.previous_page_number}}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                    {% endif %}
+
+                    <!--Itera dentro del objeto paginator para mostrar cuantas paginas existen-->
+                    {% for pagina in paginator.page_range %}
+                        <!--Si la pagina es el mismo numero del objeto, entonces pinte la casilla en azul-->
+                        {% if pagina == page_obj.number %} 
+                            <li class="page-item active" aria-current="page"><a class="page-link" href="?page={{pagina}}">{{pagina}}</a></li> 
+                        {% else %}
+                            <li class="page-item"><a class="page-link" href="?page={{pagina}}">{{pagina}}</a></li>
+                        {% endif %}    
+                    {% endfor %}
+                     
+                    {% if page_obj.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{page_obj.next_page_number}}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                    </ul>
+                </nav>
+            {% endif %}
+        </div>
+    </div>
+</div> 
+<div class="modal fade" id="add_mp" role="dialog"></div>
+
+{% endblock content %}
+
+
+{% block extrajs %}
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<script>
+    function add_mp(url){
+        var $ = jQuery.noConflict();
+        $('#add_mp').load(url,function(){
+            $(this).modal('show');
+        }); 
+    }
+</script>
+{% endblock extrajs %}
+    

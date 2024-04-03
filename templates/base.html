@@ -1,0 +1,116 @@
+{%load static%}
+<!doctype html>
+<html lang="es">
+    <head>
+        <title>{%block title%}{%endblock%}</title>
+        <!-- meta tags requeridos -->
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+        
+        <link rel="icon" href="{% static 'img/icon.png' %}" type="image/x-icon">
+        <!-- Bootstrap CSS v5.2.1 -->
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css'%}">
+        <link rel="stylesheet" href="{% static 'css/estilos.css'%}">
+    </head>
+
+    <body>
+
+        <div class="wrapper">
+            <!-- Sidebar -->
+            <aside id="sidebar">
+                <div class="h-100">
+                    <div class="sidebar-logo">
+                        <img src="{%static 'img/Logotacomas.png'%}" alt="">
+                        <a href="{% url 'home_app:home' %}">Tacomas</a>
+                    </div>
+                    <!-- Navegacion del sidebar -->
+                    <ul class="sidebar-nav">
+                        <li class="sidebar-item">
+                            <a href="{% url 'users_app:list_user' %}" class="sidebar-link">
+                                <i class="fa-solid fa-users pe-2"></i>
+                                Usuarios
+                            </a>
+                        </li>
+                        <li class="sidebar-item dropdown">
+                            <a href="#" class="sidebar-link dropdown-toggle"  data-bs-toggle="dropdown" aria-expanded="False">
+                                <i class="fa-solid fa-truck pe-2"></i>
+                                Compras
+                            </a> 
+                            <ul class="dropdown-menu" style="width: 100%;">
+                                <li class="sidebar-item text-center"><a href="#" class="sidebar-link dropdown-item">Pedidos</a></li>
+                                <li class="sidebar-item text-center"><a href="{% url 'proveedores_app:list_proveedores' %}" class="sidebar-link dropdown-item">Proveedores</a></li>
+                                <li class="sidebar-item text-center"><a href="#" class="sidebar-link dropdown-item">Facturas</a></li>
+                            </ul> 
+                        </li>
+                        <li class="sidebar-item dropdown">
+                            <a href="#" class="sidebar-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="False">
+                                <i class="fa-solid fa-seedling pe-2"></i>
+                                Producto
+                            </a>
+                            <ul class="dropdown-menu" style="width: 100%;">
+                                <li class="sidebar-item text-center"><a href="{% url 'mp_app:lista_mp' %}" class="sidebar-link dropdown-item">Materia Prima</a></li>
+                                <li class="sidebar-item text-center"><a href="#" class="sidebar-link dropdown-item">Implementos de Trabajo</a></li>
+                  
+                              </ul>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="#" class="sidebar-link">
+                                <i class="fa-regular fa-square-check pe-2"></i>
+                                Control de Existencias
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="#" class="sidebar-link">
+                                <i class="fa-solid fa-arrows-spin pe-2"></i>
+                                Procesamiento
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="#" class="sidebar-link">
+                                <i class="fa-solid fa-file-lines pe-2"></i>
+                                Reportes
+                            </a>
+                        </li>
+                        <br><br><br>
+                        <li class="sidebar-item">
+                            <a href="{% url 'users_app:logout' %}" class="sidebar-link">
+                                <i class="fa-solid fa-right-from-bracket pe-2"></i>
+                                Cerrar Sesión
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </aside>
+            <!-- Main Component -->
+            <div class="main">
+                <nav class="navbar navbar-expand px-3 border-bottom">
+                    <!-- Button for sidebar toggle -->
+                    <button class="btn" type="button" data-bs-theme="dark">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </nav>
+                <main class="content px-3 py-2">
+                    <div class="container-fluid">
+                        <div class="mb-3">
+                            {%block content%}
+        
+                            {%endblock%}
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+        
+
+        <!-- JavaScript scripts --> 
+        <script src="{% static 'js/jquery-3.7.1.min.js' %}"></script>
+        <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+        <script src="https://kit.fontawesome.com/909a90592e.js" crossorigin="anonymous"></script>
+        <script src="{% static 'js/script.js'%}"></script>
+
+        {% block extrajs %}
+            
+        {% endblock extrajs %}
+      
+    </body>
+</html>

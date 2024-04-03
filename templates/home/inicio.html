@@ -1,0 +1,27 @@
+{%extends "base.html"%}
+{% load static %}
+{%block title%} Inicio {%endblock%}
+
+{%block content%}
+<style>
+    .bienvenida{
+        color: rgb(235, 232, 232);
+        font-weight: bolder;
+        font-size: 40px; 
+    }
+</style>
+
+<div class="container d-flex align-items-center justify-content-center vh-100 bg-dark" style="--bs-bg-opacity: .5; border-radius: 15%;">
+    <div class="row">
+        
+        <div class="col">
+            <img src="{% static 'img/ilustracion-inicio.png' %}" alt="" class="img-fluid">
+        </div>
+
+        <div class="col d-flex justify-content-center align-items-center bienvenida"><h4 class="bienvenida">¡Bienvenido a Tacosoft {{user.name}} {{user.last_name}}!</h4></div>
+        
+    </div>
+    
+</div>
+ 
+{%endblock%}
