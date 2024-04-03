@@ -47,6 +47,24 @@ class UserRegisterView(LoginRequiredMixin,FormView):
 
         )
         return super(UserRegisterView, self).form_valid(form)
+
+class UserRegisterView2(FormView):
+    '''Vista que registra usuarios del modelo user'''
+    template_name ='usuarios/add_user2.html'
+    form_class=UserRegisterForm
+    success_url=reverse_lazy('users_app:login')
+
+    def form_valid(self, form):
+        '''Funcion para guardar los datos de user'''
+        User.objects.create_user(
+            form.cleaned_data['name'],
+            form.cleaned_data['last_name'],
+            form.cleaned_data['username'],
+            form.cleaned_data['password'],
+            rol=form.cleaned_data['rol'],
+
+        )
+        return super(UserRegisterView, self).form_valid(form)    
     
 class UserUpdateView(LoginRequiredMixin, UpdateView):
     '''Vista para actualizar los datos de user'''
