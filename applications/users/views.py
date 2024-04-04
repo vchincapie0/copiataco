@@ -64,7 +64,7 @@ class UserRegisterView2(FormView):
             rol=form.cleaned_data['rol'],
 
         )
-        return super(UserRegisterView, self).form_valid(form)    
+        return super(UserRegisterView2, self).form_valid(form)    
     
 class UserUpdateView(LoginRequiredMixin, UpdateView):
     '''Vista para actualizar los datos de user'''

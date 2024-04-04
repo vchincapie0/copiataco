@@ -34,10 +34,7 @@ body{
     padding: 30px 40px;
 }
 
-.wrapper img{
-    position: relative;
-    left: 150px;
-}
+
 
 .wrapper h1{
     font-family: var(--principal-font);
